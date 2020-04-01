@@ -1,0 +1,27 @@
+﻿@namespace Blazor
+@implements IDisposable
+@code {
+
+    public InputControlContainer InputControlContainer = new InputControlContainer();
+}
+<div class="layout-input-row">
+
+    <CascadingValue Name="InputControlContainer" Value="InputControlContainer">
+        <div style="font-weight: bold">
+            @Label
+        </div>
+        @ChildContent
+    </CascadingValue>
+
+    @if (InputControlContainer.Errors.Count > 0)
+    {
+        <div class="p-2">
+            @foreach (var error in InputControlContainer.Errors)
+            {
+                <div class="text-warning" title="@error.Details">
+                    - @error.Message
+                </div>
+            }
+        </div>
+    }
+</div>
