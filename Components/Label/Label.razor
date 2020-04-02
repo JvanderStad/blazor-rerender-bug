@@ -1,28 +1,9 @@
 ﻿@namespace BlazorBug
 @code {
-    public Container Container { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
 }
-<div class="layout-input-row">
 
-    <Container @ref="Container">
-        <div style="font-weight: bold">
-            @Title
-        </div>
-        @ChildContent
-    </Container>
-
-    @if (Container != null)
-    {
-        if (Container.Errors.Count > 0)
-        {
-            <div class="p-2">
-                @foreach (var error in Container.Errors)
-                {
-                    <div class="text-warning" title="@error.Details">
-                        - @error.Message
-                    </div>
-                }
-            </div>
-        }
-    }
-</div>
+<Container>
+    @ChildContent
+</Container>

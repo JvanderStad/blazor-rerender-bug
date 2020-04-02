@@ -1,11 +1,8 @@
 ﻿@namespace BlazorBug
-@implements IDisposable
+@inject Microsoft.Extensions.Logging.ILogger<Date> Logger
 @code {
-    // Change the class if there are errors
-    public string CssClass => HasErrors ? "has-errors" : "";
+    [CascadingParameter]
+    public Container Container { get; set; }
 }
 
-<input @bind="DisplayValue"
-       class="@CssClass"
-        title="@ErrorSummary"
-        type="text" />
+<input type="text" @bind="DisplayValue" />
