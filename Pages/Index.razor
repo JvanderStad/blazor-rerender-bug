@@ -3,10 +3,30 @@
 @inject ILogger<Index> Logger
 @code {
     public Date DateComponent1 { get; set; }
-    public DateTime? DateValue1 { get; set; } = DateTime.Now;
+
+    DateTime? _dateValue1 = DateTime.Now;
+    public DateTime? DateValue1
+    {
+        get => _dateValue1;
+        set
+        {
+            Logger.LogWarning("Set property DateValue1 to {value}", value);
+            _dateValue1 = value;
+        }
+    }
 
     public Date DateComponent2 { get; set; }
-    public DateTime? DateValue2 { get; set; } = DateTime.Now;
+
+    DateTime? _dateValue2 = DateTime.Now;
+    public DateTime? DateValue2
+    {
+        get => _dateValue2;
+        set
+        {
+            Logger.LogWarning("Set property DateValue2 to {value}", value);
+            _dateValue2 = value;
+        }
+    }
 
     protected override void OnInitialized()
     {
