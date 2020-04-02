@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,7 @@ namespace BlazorBug
 
 			if (Container != null)
 			{
+				Logger.LogWarning("Notify container of error state change, summary: {summary}", ErrorSummary);
 				Container.UpdateErrors(this);
 			}
 		}

@@ -21,7 +21,7 @@ namespace BlazorBug
 		private void ValueChangedInvoke(DateTime? value)
 		{
 			_value = value;
-			Logger.LogError("Update Value: {_value}", _value);
+			Logger.LogWarning("Set _value to '{_value}' and update bindings", _value);
 			ValueChanged.InvokeAsync(_value);
 		}
 
@@ -30,7 +30,7 @@ namespace BlazorBug
 			if (value == _value)
 				return;
 
-			Logger.LogError("SetValue: {value}", value);
+			Logger.LogWarning("SetValue: {value}", value);
 
 			DisplayValueChangedInvoke(GetDisplayValue(value));
 			ValueChangedInvoke(value);

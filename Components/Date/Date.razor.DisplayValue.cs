@@ -27,12 +27,14 @@ namespace BlazorBug
 			if (value == _displayValue)
 				return;
 
-			Logger.LogError("SetDisplayValue: {value}", value);
+			Logger.LogWarning("SetDisplayValue: {value}", value);
 
 			// Can we parse the text value into a DateTime?
 			var parsed = ParseDisplayValue(value);
 			if (parsed.InputControlError != null)
 			{
+				Logger.LogError("Could not parse value {value}", value);
+
 				// Could not parse
 				// Continue to update _displayValue to the unparseble text value
 				DisplayValueChangedInvoke(value);
@@ -66,7 +68,7 @@ namespace BlazorBug
 		private void DisplayValueChangedInvoke(string displayValue)
 		{
 			_displayValue = displayValue;
-			Logger.LogError("Update DisplayValue: {_value}", _displayValue);
+			Logger.LogWarning("Set _displayValue to '{_displayValue}' and update bindings", _displayValue);
 			DisplayValueChanged.InvokeAsync(_displayValue);
 		}
 
