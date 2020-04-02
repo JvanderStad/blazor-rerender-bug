@@ -12,9 +12,10 @@ namespace BlazorBug
 		[Parameter]
 		public bool HasErrors { get; set; }
 
-		[Parameter]
-		public EventCallback<bool> HasErrorsChanged { get; set; }
-
+		/// <summary>
+		/// Remove errorstate
+		/// </summary>
+		/// <returns>Has the errorstate changed?</returns>
 		protected bool ClearError()
 		{
 			if (Errors.Count == 0)
@@ -38,8 +39,10 @@ namespace BlazorBug
 			return true;
 		}
 
-
 		protected string ErrorSummary { get; set; }
+
+		[Parameter]
+		public EventCallback<bool> HasErrorsChanged { get; set; }
 
 		protected void HasErrorsChangedInvoke()
 		{

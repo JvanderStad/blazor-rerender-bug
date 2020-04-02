@@ -14,13 +14,11 @@ namespace BlazorBug
 
 		protected override void OnInitialized()
 		{
-			if (Container != null)
-				Container.RegisterChild(this);
+			Container?.RegisterChild(this);
 		}
 		public void Dispose()
 		{
-			if (Container != null)
-				Container.UnregisterChild(this);
+			Container?.UnregisterChild(this);
 		}
 	}
 }

@@ -2,12 +2,21 @@
 @using Microsoft.Extensions.Logging;
 @inject ILogger<Index> Logger
 @code {
-    public DateTime? Date1 { get; set; } = DateTime.Now;
-    public DateTime? Date2 { get; set; } = DateTime.Now;
+    public Date DateComponent1 { get; set; }
+    public DateTime? DateValue1 { get; set; } = DateTime.Now;
+
+    public Date DateComponent2 { get; set; }
+    public DateTime? DateValue2 { get; set; } = DateTime.Now;
 
     protected override void OnInitialized()
     {
         Logger.LogWarning("Render Index ('/') page");
+    }
+
+    private DateTime RandomDate()
+    {
+        var rnd = new Random();
+        return new DateTime(rnd.Next(1900, 2100), rnd.Next(1, 12), rnd.Next(1, 27));
     }
 
 }
@@ -33,15 +42,48 @@
 
 <hr />
 
+
 <h3>#1. Input</h3>
 <div class="sample">
-    <Date @bind-Value="Date1"></Date>
+
+    <!-- Stand alone Component -->
+    <Date @ref="DateComponent1"
+          @bind-Value="DateValue1" />
+
+    <!-- Button to test binding -->
+    <button class="btn btn-primary"
+            @onclick="()=>DateValue1=RandomDate()">
+        Set random date
+    </button>
+
+    <div class="pt-2">
+        <!-- Display the bound value -->
+        DateValue1: <span class="text-danger">@DateValue1</span>
+    </div>
+
 </div>
+
+<hr />
 
 
 <h3>#2. Input with parent</h3>
 <div class="sample">
+
+    <!-- Component is wrapped in a Label component -->
     <Label Title="LabelValue">
-        <Date @bind-Value="Date2"></Date>
+        <Date @ref="DateComponent2"
+              @bind-Value="DateValue2" />
+
+        <!-- Button to test binding -->
+        <button class="btn btn-primary"
+                @onclick="()=>DateValue2=RandomDate()">
+            Set random date
+        </button>
     </Label>
+
+    <div class="pt-2">
+        <!-- Display the bound value -->
+        DateValue2: <span class="text-danger">@DateValue2</span>
+    </div>
+
 </div>

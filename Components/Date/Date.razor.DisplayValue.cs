@@ -18,33 +18,51 @@ namespace BlazorBug
 		[Parameter]
 		public EventCallback<string> DisplayValueChanged { get; set; }
 
-
+		/// <summary>
+		/// DisplayValue property setter
+		/// </summary>
+		/// <param name="value"></param>
 		public void SetDisplayValue(string value)
 		{
-
 			if (value == _displayValue)
 				return;
 
 			Logger.LogError("SetDisplayValue: {value}", value);
 
+			// Can we parse the text value into a DateTime?
 			var parsed = ParseDisplayValue(value);
 			if (parsed.InputControlError != null)
 			{
+				// Could not parse
+				// Continue to update _displayValue to the unparseble text value
 				DisplayValueChangedInvoke(value);
+				
+				// Set the Value to null and update bindings
 				ValueChangedInvoke(default);
 
+				// Set the error
 				SetError(parsed.InputControlError);
+				
+				// Notify error state has changed
 				HasErrorsChangedInvoke();
 				return;
 			}
 
+			// Change _displayvalue to the parsed value and update bindings
 			DisplayValueChangedInvoke(parsed.DisplayValue);
+			
+			// Change DateTime _value to parsed value and update bindings
 			ValueChangedInvoke(parsed.Value);
 
+			// Notify error state has changed
 			if (ClearError())
 				HasErrorsChangedInvoke();
 		}
 
+		/// <summary>
+		/// Update _displayValue and update bindings
+		/// </summary>
+		/// <param name="displayValue"></param>
 		private void DisplayValueChangedInvoke(string displayValue)
 		{
 			_displayValue = displayValue;
@@ -52,6 +70,11 @@ namespace BlazorBug
 			DisplayValueChanged.InvokeAsync(_displayValue);
 		}
 
+		/// <summary>
+		/// Parse the user input
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public virtual ParseDisplayValueResult ParseDisplayValue(string value)
 		{
 			if (String.IsNullOrEmpty(value))
@@ -85,6 +108,11 @@ namespace BlazorBug
 			}
 		}
 
+		/// <summary>
+		/// Convert the value into a display value
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public virtual string GetDisplayValue(DateTime? value)
 		{
 			if (value == null)
