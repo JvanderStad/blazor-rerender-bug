@@ -1,17 +1,23 @@
 ﻿@page "/"
-
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Index> Logger
 @code {
     public DateTime? Date1 { get; set; } = DateTime.Now;
     public DateTime? Date2 { get; set; } = DateTime.Now;
-}
 
+    protected override void OnInitialized()
+    {
+        Logger.LogWarning("Render Index ('/') page");
+    }
+
+}
 
 <h3>Description</h3>
 
 <blockquote>
     I have a problem with a Razor component resetting values when the component is wrapped in another component.
     The component works fine when used stand-alone.<br />
-    
+
     <br />
     The component is a date input control. <br />
     <br />
@@ -23,22 +29,19 @@
         <li>Enter the same value into input #2</li>
         <li>You will see the value will reset to the original value, due to a redraw of the parent component</li>
     </ol>
-
-
-
 </blockquote>
 
 <hr />
 
 <h3>#1. Input</h3>
 <div class="sample">
-    <Blazor.InputControlDate @bind-Value="Date1"></Blazor.InputControlDate>
+    <Date @bind-Value="Date1"></Date>
 </div>
 
 
 <h3>#2. Input with parent</h3>
 <div class="sample">
-    <Blazor.InputControlLabel Label="LabelValue">
-        <Blazor.InputControlDate @bind-Value="Date2"></Blazor.InputControlDate>
-    </Blazor.InputControlLabel>
+    <Label Title="LabelValue">
+        <Date @bind-Value="Date2"></Date>
+    </Label>
 </div>

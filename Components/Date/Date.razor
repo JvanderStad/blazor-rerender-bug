@@ -1,0 +1,11 @@
+﻿@namespace BlazorBug
+@implements IDisposable
+@code {
+    // Change the class if there are errors
+    public string CssClass => HasErrors ? "has-errors" : "";
+}
+
+<input @bind="DisplayValue"
+       class="@CssClass"
+        title="@ErrorSummary"
+        type="text" />
